@@ -12,9 +12,10 @@ console.log(cards);
     
 
 const deck = document.getElementById("card-deck");
+var firstCard = null;
+var matchedCards = [];
     
 // loop to add event listeners to each card
-var firstCard = null
 var displayCard = function (){
     this.classList.toggle("open");
 	this.classList.toggle("show");
@@ -28,12 +29,7 @@ var displayCard = function (){
 	}
 	
 };   
-for (var i = 0; i < cards.length; i++){
-    let card = cards[i];
-    card.addEventListener("click", displayCard);
-    
-    
-};
+
 
 
     
@@ -52,7 +48,7 @@ function compare(currentCard, previousCard) {
 
         matchedCards.push(currentCard, previousCard);
 
-        openedCards = [];
+        firstCard = null;
 
         // Check if the game is over!
         isOver();
@@ -77,7 +73,7 @@ function compare(currentCard, previousCard) {
  * Check if the game is over!
  */
 function isOver() {
-    if(matchedCards.length === icons.length) {
+    if(matchedCards.length === cards.length) {
         alert("GAME OVER!");
     }
 }
@@ -115,11 +111,15 @@ function rating() {
  */
 const restartBtn = document.querySelector(".restart");
 restartBtn.addEventListener("click", function() {
-    // Delete ALL cards
-    cardsContainer.innerHTML = "";
-
-    // Call `init` to create new cards
-    init();
+	for (var i = 0; i < cards.length; i++){
+		let card = cards[i];
+		card.classList.remove("open", "show", "disable", "match");
+            
+		
+		
+	};
+	
+    init()
 
     // Reset ANY RELATED variables
     matchedCards = [];
@@ -131,7 +131,23 @@ restartBtn.addEventListener("click", function() {
 
 /////// Start the game for the first time!
 function init() {
-
+	shuffle (cards)
+	const deck = document.getElementById("card-deck");
+	deck.innerHTML = ""
+	for (var i = 0; i < cards.length; i++){
+		let card = cards[i];
+		const div=document.createElement ("div");
+		div.appendChild (card)
+		deck.innerHTML += div.innerHTML
+	}
+    cards = [...document.getElementsByClassName("card")];
+	
+	for (var i = 0; i < cards.length; i++){
+    let card = cards[i];
+    card.addEventListener("click", displayCard);
+    
+    
+};
 }
 
 
@@ -158,8 +174,7 @@ function shuffle(array) {
     return array;
 }
 
-
-
+init()
 
  /* set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
