@@ -3,8 +3,8 @@
  
 
 // cards array holds all cards
-let card = document.getElementsByClassName("card");
-let cards = [...card]
+let cards = [...document.getElementsByClassName("card")];
+
 console.log(cards);
 
 
@@ -14,13 +14,22 @@ console.log(cards);
 const deck = document.getElementById("card-deck");
     
 // loop to add event listeners to each card
+var firstCard = null
 var displayCard = function (){
     this.classList.toggle("open");
-    this.classList.toggle("show");
-    this.classList.toggle("disabled");
+	this.classList.toggle("show");
+	this.classList.toggle("disabled");
+	
+	if (firstCard === null){
+		firstCard = this
+	} else {
+		compare (this, firstCard)
+
+	}
+	
 };   
 for (var i = 0; i < cards.length; i++){
-    card = cards[i];
+    let card = cards[i];
     card.addEventListener("click", displayCard);
     
     
@@ -57,7 +66,7 @@ function compare(currentCard, previousCard) {
             
         }, 600);
 
-        openedCards = [];
+        firstCard = null;
         
     }
 
