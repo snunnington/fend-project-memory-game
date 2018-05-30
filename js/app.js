@@ -26,8 +26,7 @@ for (var i = 0; i < cards.length; i++){
     
 };
 
-//we have an existing OPENED card
-       
+
     
 
 
