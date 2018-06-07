@@ -1,14 +1,14 @@
 
-/* array holding all cards */
- 
 
+
+ 
 // cards array holds all cards
 let cards = [...document.getElementsByClassName("card")];
 
 console.log(cards);
 
 
-
+var timer = 0;
     
 
 const deck = document.getElementById("card-deck");
@@ -29,11 +29,6 @@ var displayCard = function (){
 	}
 	
 };   
-
-
-
-    
-
 
 //Compare the 2 cards
  //
@@ -72,9 +67,14 @@ function compare(currentCard, previousCard) {
 /*
  * Check if the game is over!
  */
+// Simple string substitution
+
+
+
 function isOver() {
-    if(matchedCards.length === cards.length) {
-        alert("GAME OVER!");
+    if(matchedCards.length === cards.length) { 
+        var stars = rating();
+        swal(`Game Over Congratulations! You finished with ${stars} stars time is ${timer}`);
     }
 }
 /*
@@ -100,10 +100,13 @@ function rating() {
 
     if( moves < 10) {
         starsContainer.innerHTML = star + star + star;
+        return 3;
     } else if( moves < 15) {
         starsContainer.innerHTML = star + star;
+        return 2;
     } else {
         starsContainer.innerHTML = star;
+        return 1;
     }
 }
 /*
@@ -114,9 +117,7 @@ restartBtn.addEventListener("click", function() {
 	for (var i = 0; i < cards.length; i++){
 		let card = cards[i];
 		card.classList.remove("open", "show", "disable", "match");
-            
-		
-		
+            	
 	};
 	
     init()
@@ -131,6 +132,8 @@ restartBtn.addEventListener("click", function() {
 
 /////// Start the game for the first time!
 function init() {
+    setInterval(myFunction, 3000)
+
 	shuffle (cards)
 	const deck = document.getElementById("card-deck");
 	deck.innerHTML = ""
@@ -149,8 +152,6 @@ function init() {
     
 };
 }
-
-
 
 /*
  * Display the cards on the page
@@ -172,6 +173,13 @@ function shuffle(array) {
     }
 
     return array;
+}
+
+ /* timer */
+
+function myFunction() {
+    timer = timer + 1;
+    console.log(`time is ${timer}`);
 }
 
 init()
