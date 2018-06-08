@@ -17,4 +17,4 @@ External Libraries Used
 
 Sweet Alert for modal
 Font Awesome
-Google fonts
+Google fontscs
