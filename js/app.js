@@ -1,6 +1,4 @@
 
-
-
  
 // cards array holds all cards
 let cards = [...document.getElementsByClassName("card")];
@@ -9,6 +7,9 @@ console.log(cards);
 
 
 var timer = 0;
+
+
+
     
 
 const deck = document.getElementById("card-deck");
@@ -74,7 +75,18 @@ function compare(currentCard, previousCard) {
 function isOver() {
     if(matchedCards.length === cards.length) { 
         var stars = rating();
-        swal(`Game Over Congratulations! You finished with ${stars} stars time is ${timer}`);
+        
+        swal({
+            text: `Game Over Congratulations! You finished with ${stars} stars time is ${timer} `,
+            button: "Play again!"
+
+        }).then((value) => {
+            
+            if (value === true ){
+                restart();
+            }
+
+        });
     }
 }
 /*
@@ -112,13 +124,13 @@ function rating() {
 /*
  * Restart Button
  */
-const restartBtn = document.querySelector(".restart");
-restartBtn.addEventListener("click", function() {
-	for (var i = 0; i < cards.length; i++){
+function restart(){
+    for (var i = 0; i < cards.length; i++){
 		let card = cards[i];
 		card.classList.remove("open", "show", "disable", "match");
             	
-	};
+    };
+    
 	
     init()
 
@@ -126,8 +138,11 @@ restartBtn.addEventListener("click", function() {
     matchedCards = [];
     moves = 0;
     movesContainer.innerHTML = moves;
-    starsContainer.innerHTML = star + star + star;
-});
+    starsContainer.innerHTML = star + star + star;  
+}
+
+const restartBtn = document.querySelector(".restart");
+restartBtn.addEventListener("click", restart); 
 
 
 /////// Start the game for the first time!
@@ -148,8 +163,6 @@ function init() {
 	for (var i = 0; i < cards.length; i++){
     let card = cards[i];
     card.addEventListener("click", displayCard);
-    
-    
 };
 }
 
@@ -176,6 +189,14 @@ function shuffle(array) {
 }
 
  /* timer */
+ /*var timer = new Timer();
+timer.start();
+timer.addEventListener('secondsUpdated', function (e) {
+    $('#basicUsage').html(timer.getTimeValues().toString());
+});
+*/
+
+                
 
 function myFunction() {
     timer = timer + 1;

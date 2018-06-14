@@ -73,6 +73,7 @@ h1 {
 
 .deck .card.show {
     font-size: 33px;
+    pointer-events: none;
 }
 
 .deck .card.match {
@@ -106,4 +107,13 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+/* Extra small devices (phones, up to 480px) */
+@media screen and (max-width: 767px) {
+	
+	canvas{
+		max-width: 360px;
+		min-height: 450px;
+
+    }
 }
