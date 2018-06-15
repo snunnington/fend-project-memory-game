@@ -1,5 +1,5 @@
 
- 
+let timerHandle; 
 // cards array holds all cards
 let cards = [...document.getElementsByClassName("card")];
 
@@ -8,9 +8,7 @@ console.log(cards);
 
 var timer = 0;
 
-
-
-    
+      
 
 const deck = document.getElementById("card-deck");
 var firstCard = null;
@@ -76,6 +74,7 @@ function isOver() {
     if(matchedCards.length === cards.length) { 
         var stars = rating();
         
+        
         swal({
             text: `Game Over Congratulations! You finished with ${stars} stars time is ${timer} `,
             button: "Play again!"
@@ -133,6 +132,7 @@ function restart(){
     
 	
     init()
+    timerHandle = setInterval(increaseTimer, 3000)
 
     // Reset ANY RELATED variables
     matchedCards = [];
@@ -201,6 +201,13 @@ timer.addEventListener('secondsUpdated', function (e) {
 function myFunction() {
     timer = timer + 1;
     console.log(`time is ${timer}`);
+    // declare timerID outside of function scope so you can access it in another function
+let timerID;
+function init() {
+   timerID = setInterval(myFunction, 3000)
+}
+// then, in the isOver function
+clearInterval(timerID)
 }
 
 init()

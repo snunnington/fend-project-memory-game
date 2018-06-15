@@ -117,3 +117,12 @@ h1 {
 
     }
 }
+/* Extra small devices (phones, up to 480px) */
+@media screen and (max-width: 767px) {
+	
+	canvas{
+		max-width: 360px;
+		min-height: 450px;
+
+    }
+}
