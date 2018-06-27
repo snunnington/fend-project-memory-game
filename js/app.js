@@ -4,10 +4,7 @@ let cards = [...document.getElementsByClassName("card")];
 
 console.log(cards);
 
-
 var timer = 0;
-
-
 
 const deck = document.getElementById("card-deck");
 var firstCard = null;
@@ -46,6 +43,7 @@ function compare(currentCard, previousCard) {
         // Check if the game is over!
         if (isGameOver()) {
             timerStops();
+            // resetTimer();
         }
 
     } else {
@@ -76,12 +74,19 @@ function timerStops() {
 }
 
 function isGameOver() {
-    if (matchedCards.length === cards.length) {
-       return true;
-    }
-       return false;
 
-    
+    // if (timer >= 1) {
+    //     console.log("game over")
+    //     return true;
+    // }
+    console.log(`matched cards length ${matchedCards.length}`)
+    console.log(` cards length ${cards.length}`)
+
+    if (matchedCards.length === cards.length) {
+
+        return true;
+    }
+    return false;
 }
 /*
  * Add move
@@ -124,18 +129,18 @@ function restart() {
     for (var i = 0; i < cards.length; i++) {
         let card = cards[i];
         card.classList.remove("open", "show", "disable", "match");
-
     };
 
-
     init()
-    timerHandle = setInterval(increaseTimer, 3000)
+    // timerHandle = setInterval(increaseTimer, 3000)
 
     // Reset ANY RELATED variables
     matchedCards = [];
+
     moves = 0;
     movesContainer.innerHTML = moves;
     starsContainer.innerHTML = star + star + star;
+
 }
 
 const restartBtn = document.querySelector(".restart");
@@ -144,7 +149,7 @@ restartBtn.addEventListener("click", restart);
 
 /////// Start the game for the first time!
 function init() {
-    setInterval(myFunction, 3000)
+    setInterval(banana, 3000)
 
     shuffle(cards)
     const deck = document.getElementById("card-deck");
@@ -194,31 +199,35 @@ timer.addEventListener('secondsUpdated', function (e) {
 });
 */
 
-function myFunction() {
-    timer = timer + 1;
-    console.log(`time is ${timer}`);
-    // declare timerID outside of function scope so you can access it in another function
-    let timerID;
-
-    function init() {
-        timerID = setInterval(myFunction, 3000)
-    }
-     
-    function resetTimer(timer) {
-        if (timer) {
-            clearInterval(timerID)
-        }
-    }
+function resetTimer() {
+    // clearInterval(timerID)
+    console.log("Resetted")
+    timer = 0;
 }
 
-    init()
+function banana() {
+    if (isGameOver()) {
+        resetTimer();
+    } else {
+        timer = timer + 1;
+        console.log(`time is ${timer}`);
+    }
+    // declare timerID outside of function scope so you can access it in another function
+    // let timerID;
 
-    /* set up the event listener for a card. If a card is clicked:
-     *  - display the card's symbol (put this functionality in another function that you call from this one)
-     *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
-     *  - if the list already has another card, check to see if the two cards match
-     *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
-     *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
-     *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
-     *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
-     */
+    // function init() {
+    //     timerID = setInterval(banana, 3000)
+    // }
+}
+
+init()
+
+/* set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol (put this functionality in another function that you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */
