@@ -132,7 +132,6 @@ function restart() {
     };
 
     init()
-    // timerHandle = setInterval(increaseTimer, 3000)
 
     // Reset ANY RELATED variables
     matchedCards = [];
@@ -201,7 +200,7 @@ timer.addEventListener('secondsUpdated', function (e) {
 
 function resetTimer() {
     // clearInterval(timerID)
-    console.log("Resetted")
+    console.log("Reset")
     timer = 0;
 }
 
@@ -211,6 +210,15 @@ function banana() {
     } else {
         timer = timer + 1;
         console.log(`time is ${timer}`);
+
+     if 
+    
+    (isGameOver() ){
+            if(matchedCards.length === icons.length) {
+        
+                // Stop our timer
+                stopTimer();
+            }}
     }
     // declare timerID outside of function scope so you can access it in another function
     // let timerID;
