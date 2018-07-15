@@ -11,56 +11,23 @@ var firstCard = null;
 var matchedCards = [];
 
 // loop to add event listeners to each card
-var displayCard = function () {
-    this.classList.toggle("open");
-    this.classList.toggle("show");
-    this.classList.toggle("disabled");
-
-    if (firstCard === null) {
-        firstCard = this
-    } else {
-        compare(this, firstCard)
-
-    }
-
+var displayCard = function (obj) {
+    obj.classList.toggle("open");
+    obj.classList.toggle("show");
+    obj.classList.toggle("disabled");
 };
 
 //Compare the 2 cards
 //
 function compare(currentCard, previousCard) {
-
     // Matcher
-    if (currentCard.innerHTML === previousCard.innerHTML) {
-
-        // Matched
-        currentCard.classList.add("match");
-        previousCard.classList.add("match");
-
-        matchedCards.push(currentCard, previousCard);
-
-        firstCard = null;
-
-        // Check if the game is over!
-        if (isGameOver()) {
-            timerStops();
-            // resetTimer();
-        }
-
-    } else {
-        // Wait 600ms then, do this!
-        setTimeout(function () {
-            currentCard.classList.remove("open", "show", "disable");
-            previousCard.classList.remove("open", "show", "disable");
-
-        }, 600);
-        firstCard = null;
-    }
-
-    // Add New Move
-    addMove();
+    return currentCard.innerHTML === previousCard.innerHTML;
 }
 
-function timerStops() {
+function endGame() {
+    clearInterval(timerHandle);
+    timerHandle = null;
+
     var stars = rating();
 
     swal({
@@ -83,7 +50,6 @@ function isGameOver() {
     console.log(` cards length ${cards.length}`)
 
     if (matchedCards.length === cards.length) {
-
         return true;
     }
     return false;
@@ -131,7 +97,8 @@ function restart() {
         card.classList.remove("open", "show", "disable", "match");
     };
 
-    init()
+    resetTimer();
+    init();
 
     // Reset ANY RELATED variables
     matchedCards = [];
@@ -139,7 +106,6 @@ function restart() {
     moves = 0;
     movesContainer.innerHTML = moves;
     starsContainer.innerHTML = star + star + star;
-
 }
 
 const restartBtn = document.querySelector(".restart");
@@ -148,9 +114,7 @@ restartBtn.addEventListener("click", restart);
 
 /////// Start the game for the first time!
 function init() {
-    setInterval(banana, 3000)
-
-    shuffle(cards)
+    shuffle(cards);
     const deck = document.getElementById("card-deck");
     deck.innerHTML = ""
     for (var i = 0; i < cards.length; i++) {
@@ -163,7 +127,49 @@ function init() {
 
     for (var i = 0; i < cards.length; i++) {
         let card = cards[i];
-        card.addEventListener("click", displayCard);
+        card.addEventListener("click", function() {
+            if (! timerHandle) {
+                resetTimer()
+                timerHandle = setInterval(banana, 3000)
+            }
+
+            displayCard(this);
+
+            if (firstCard === null) {
+                firstCard = this
+                return;
+            }
+
+            // Add New Move
+            addMove();
+            
+            var currentCard = this;
+
+            if (! compare(currentCard, firstCard)) {
+                // Wait 600ms then, do this!
+                setTimeout(function () {
+                    currentCard.classList.remove("open", "show", "disable");
+                    firstCard.classList.remove("open", "show", "disable");
+                    firstCard = null;        
+                }, 600);
+
+                return;
+            }
+
+            // Matched
+            currentCard.classList.add("match");
+            firstCard.classList.add("match");
+    
+            matchedCards.push(currentCard, firstCard);
+    
+            firstCard = null;
+    
+            // Check if the game is over!
+            if (isGameOver()) {
+                endGame();
+                // resetTimer();
+            }
+        });
     };
 }
 
@@ -199,36 +205,16 @@ timer.addEventListener('secondsUpdated', function (e) {
 */
 
 function resetTimer() {
-    // clearInterval(timerID)
     console.log("Reset")
     timer = 0;
 }
 
 function banana() {
-    if (isGameOver()) {
-        resetTimer();
-    } else {
-        timer = timer + 1;
-        console.log(`time is ${timer}`);
-
-     if 
-    
-    (isGameOver() ){
-            if(matchedCards.length === icons.length) {
-        
-                // Stop our timer
-                stopTimer();
-            }}
-    }
-    // declare timerID outside of function scope so you can access it in another function
-    // let timerID;
-
-    // function init() {
-    //     timerID = setInterval(banana, 3000)
-    // }
+    timer = timer + 1;
+    console.log(`time is ${timer}`);
 }
 
-init()
+restart()
 
 /* set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
